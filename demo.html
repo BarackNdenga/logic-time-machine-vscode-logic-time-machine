@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Demo Time-Machine</title>
+  <style>
+    body { font-family: system-ui; max-width: 600px; margin: 50px auto; padding: 20px; }
+    button { padding: 10px 20px; font-size: 16px; margin: 10px 0; }
+    #log { background: #f5f5f5; padding: 20px; height: 200px; overflow: auto; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <h1>🕰️ Demo Logic Time-Machine</h1>
+  <p>1. Chargez l'extension, start recording</p>
+  <p>2. Cliquez les boutons → vérifiez console pour traces</p>
+  <p>3. DevTools → Time-Machine → tapez "window.user.email" ou "window.counter"</p>
+  
+  <button onclick="incrementCounter()">+ Compteur</button>
+  <button onclick="simulateLogin()">Login (fetch fail → null)</button>
+  <button onclick="asyncTask()">Tâche async</button>
+  
+  <div id="log"></div>
+
+  <script>
+    window.counter = 0;
+    window.user = { email: 'test@example.com' };
+
+    function incrementCounter() {
+      window.counter++;
+      log('Counter → ' + window.counter);
+    }
+
+    async function simulateLogin() {
+      log('Login cliqué');
+      try {
+        const res = await fetch('/api/login', { // 404 simulé
+          method: 'POST',
+          body: JSON.stringify({email: 'user'})
+        });
+        if (!res.ok) throw new Error('404');
+        window.user.email = await res.json().email;
+      } catch (e) {
+        window.user.email = null; // ← Ceci sera tracé !
+        log('Login échoué: ' + e.message);
+      }
+    }
+
+    function asyncTask() {
+      setTimeout(() => {
+        window.counter *= 2;
+        log('Async: counter=' + window.counter);
+      }, 1000);
+    }
+
+    function log(msg) {
+      document.getElementById('log').innerHTML += msg + '<br>';
+      document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
+    }
+  </script>
+</body>
+</html>
+
