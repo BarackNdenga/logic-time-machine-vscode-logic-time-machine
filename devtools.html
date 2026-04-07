@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Time-Machine Panel</title>
+  <style>
+    body { font-family: system-ui; margin: 0; height: 100vh; display: flex; flex-direction: column; }
+    #controls { padding: 10px; background: #f5f5f5; border-bottom: 1px solid #ddd; }
+    #timeline { flex: 1; overflow: auto; padding: 10px; }
+    .change { background: #e3f2fd; margin: 5px 0; padding: 10px; border-radius: 4px; cursor: pointer; }
+    .change:hover { background: #bbdefb; }
+    .stack { font-size: 12px; color: #666; margin-top: 5px; }
+    .value { font-family: monospace; }
+    input { width: 200px; margin-right: 10px; }
+    button { padding: 4px 8px; }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <input id="varPath" placeholder="ex: window.user.email" />
+    <button id="query">Chercher timeline</button>
+    <button id="clear">Clear traces</button>
+    <span id="status">Pret</span>
+  </div>
+  <div id="timeline"></div>
+  
+  <script src="panel.js"></script>
+</body>
+</html>
