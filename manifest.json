@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "The Logic Time-Machine",
+  "version": "0.1.0",
+  "description": "Analyseur de flux de données 4D - Debuggez l'historique des variables en temps réel",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "unlimitedStorage"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "world": "MAIN",
+      "run_at": "document_start"
+    }
+  ],
+"devtools_page": "devtools/devtools.html",
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Time-Machine"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["recorder/*.js", "devtools/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
+
