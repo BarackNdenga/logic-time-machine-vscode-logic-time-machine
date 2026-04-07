@@ -1,0 +1,127 @@
+{
+  "name": "logic-time-machine",
+  "displayName": "The Logic Time-Machine",
+  "description": "Analyseur de flux de données 4D - Debuggez l'historique des variables en temps réel",
+  "version": "1.0.0",
+  "publisher": "barack-ndenga",
+  "author": "Barack Ndenga",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Debuggers",
+    "Other"
+  ],
+  "keywords": [
+    "debug",
+    "time-travel",
+    "variables",
+    "history",
+    "trace"
+  ],
+  "activationEvents": [
+    "onLanguage:javascript",
+    "onLanguage:typescript"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "logicTimeMachine.startRecording",
+        "title": "▶️ Démarrer l'enregistrement",
+        "category": "Time-Machine"
+      },
+      {
+        "command": "logicTimeMachine.stopRecording",
+        "title": "⏹️ Arrêter l'enregistrement",
+        "category": "Time-Machine"
+      },
+      {
+        "command": "logicTimeMachine.showTimeline",
+        "title": "🕰️ Afficher la timeline",
+        "category": "Time-Machine"
+      },
+      {
+        "command": "logicTimeMachine.exportTrace",
+        "title": "📤 Exporter la trace",
+        "category": "Time-Machine"
+      },
+      {
+        "command": "logicTimeMachine.importTrace",
+        "title": "📥 Importer une trace",
+        "category": "Time-Machine"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "logicTimeMachine.variableHistory",
+          "name": "Variable History",
+          "when": "logicTimeMachine.active"
+        }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "logicTimeMachine.showTimeline",
+          "when": "editorTextFocus && (resourceExtname == .js || resourceExtname == .ts)",
+          "group": "navigation"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "logicTimeMachine.startRecording",
+          "when": "view == logicTimeMachine.variableHistory && !logicTimeMachine.recording",
+          "group": "navigation"
+        },
+        {
+          "command": "logicTimeMachine.stopRecording",
+          "when": "view == logicTimeMachine.variableHistory && logicTimeMachine.recording",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Logic Time-Machine",
+      "properties": {
+        "logicTimeMachine.maxChanges": {
+          "type": "number",
+          "default": 10000,
+          "description": "Nombre maximum de changements par variable"
+        },
+        "logicTimeMachine.maxMemoryMB": {
+          "type": "number",
+          "default": 50,
+          "description": "Mémoire maximale en MB"
+        },
+        "logicTimeMachine.recordingDurationMinutes": {
+          "type": "number",
+          "default": 10,
+          "description": "Durée d'enregistrement en minutes"
+        },
+        "logicTimeMachine.ignoredVariables": {
+          "type": "array",
+          "default": ["requestId", "timestamp", "_id"],
+          "description": "Variables à ignorer lors de l'enregistrement"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "typescript": "^4.9.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/barack-ndenga/logic-time-machine-extension"
+  },
+  "license": "MIT",
+  "icon": "icons/icon128.png"
+}
